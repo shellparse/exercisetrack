@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
 
 app.post("/api/users",(req,res)=>{
 User.create({username:req.body.username},(err,result)=>{
-  res.json({success:result+"created"});
+  res.json(result);
 })
 })
 
