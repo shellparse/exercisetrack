@@ -25,6 +25,12 @@ User.create({username:req.body.username},(err,result)=>{
 })
 })
 
+async function getAllUsers(){
+   return await User.find();
+}
+app.get("/api/users",(req,res)=>{
+  getAllUsers().then((result)=>{res.json(result)})
+})
 
 
 const listener = app.listen(process.env.PORT || 3000, () => {
