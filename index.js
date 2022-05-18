@@ -33,9 +33,18 @@ app.get("/api/users",(req,res)=>{
 })
 
 app.post("/api/users/:_id/exercises",(req,res)=>{
-  User.findById(req.params._id,(err,result)=>{err?console.error(err):Exercise.create({username:result.username,discription:req.body.discription,duration:req.body.duration,date:req.body.date?req.body.date:new Date(),_id:result._id}).then((result)=>console.log(result))});
-  // add exercise field to the user and add the exersise to it as array element
-})
+  User.findById(req.params._id,(err,result)=>{if(err)console.error(err)
+    else{
+      result.exercise.push(Exercise.create({username:result.username,discription:req.body.discription,duration:req.body.duration,date:req.body.date?req.body.date:new Date(),user_id:mongoose.ObjectId(result._id)})
+      .then((result)=>{
+        return result;
+      }).catch((err)=>console.log(err))
+  )
+  result.save();
+    }
+    }
+  )});
+  // link exercise document to user using user id
 
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port)
