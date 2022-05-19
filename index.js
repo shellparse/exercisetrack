@@ -42,7 +42,8 @@ app.post("/api/users/:_id/exercises",(req,res)=>{
       createEx(result,req).then(result2=>{
         result.exercise.push(result2);
         result.save();
-        res.json(result);
+        
+        res.json({_id:result._id,username:result.username,description:result2.description,duration:result2.duration,date:result2.date});
       }); 
     }
     }
