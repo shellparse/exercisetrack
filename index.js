@@ -8,7 +8,7 @@ mongoose.connect("mongodb+srv://shellparse:Mido1991@cluster0.ogl5v.mongodb.net/m
 .then((result)=>{console.log(result.connections[0].name)},(rejected)=>{console.log(rejected)})
 const userSchema = new mongoose.Schema({username:String,exercise:[{type:mongoose.Schema.Types.ObjectId,ref:"Exercise"}]});
 const User = mongoose.model("User",userSchema);
-const exerciseSchema = new mongoose.Schema({username:String,description:String,duration:Number,date:Date,user_id:{type:mongoose.Schema.Types.ObjectId,ref:"User"}});
+const exerciseSchema = new mongoose.Schema({username:String,description:String,duration:Number,date:String,user_id:{type:mongoose.Schema.Types.ObjectId,ref:"User"}});
 const Exercise = mongoose.model("Excercise",exerciseSchema);
 
 app.use(bodyParse.json())
@@ -33,7 +33,7 @@ app.get("/api/users",(req,res)=>{
 })
 async function createEx(result,req){
   console.log(result)
-  let waiting = await Exercise.create({username:result.username,description:req.body.description,duration:req.body.duration,date:req.body.date?req.body.date:new Date(),user_id:result._id})
+  let waiting = await Exercise.create({username:result.username,description:req.body.description,duration:req.body.duration,date:req.body.date?req.body.date:new Date().toDateString(),user_id:result._id})
       .catch((err)=>console.log(err));
       return waiting;
 }
