@@ -9,7 +9,7 @@ mongoose.connect("mongodb+srv://shellparse:Mido1991@cluster0.ogl5v.mongodb.net/m
 const userSchema = new mongoose.Schema({username:String,exercise:[{type:mongoose.Schema.Types.ObjectId,ref:"Exercise"}]});
 const User = mongoose.model("User",userSchema);
 const exerciseSchema = new mongoose.Schema({username:String,description:String,duration:Number,date:Date,user_id:{type:mongoose.Schema.Types.ObjectId,ref:"User"}});
-const Exercise = mongoose.model("Excercise",exerciseSchema);
+const Exercise = mongoose.model("Exercise",exerciseSchema);
 
 app.use(bodyParse.json())
 app.use(bodyParse.urlencoded({extended:true}))
@@ -52,9 +52,8 @@ app.post("/api/users/:_id/exercises",(req,res)=>{
 });
 
 app.get("/api/users/:id/logs",(req,res)=>{
-  User.findById(req.params.id,(err,result)=>{
-    if(err) throw err;
-    res.json({username:result.username,count:result.exercise.length,_id:result._id,log:result.exercise})
+  User.findById(req.params.id).populate("exercise").then((pop)=>{
+    res.json({username:pop.username,count:pop.exercise.length,_id:pop._id,log:pop.exercise})
   })
 })
 const listener = app.listen(process.env.PORT || 3000, () => {
