@@ -32,6 +32,7 @@ app.get("/api/users",(req,res)=>{
   getAllUsers().then((result)=>{res.json(result)})
 })
 async function createEx(result,req){
+  console.log(result)
   let waiting = await Exercise.create({username:result.username,description:req.body.description,duration:req.body.duration,date:req.body.date?req.body.date:new Date(),user_id:result._id})
       .catch((err)=>console.log(err));
       return waiting;
@@ -39,10 +40,10 @@ async function createEx(result,req){
 app.post("/api/users/:_id/exercises",(req,res)=>{
   User.findById(req.params._id,(err,result)=>{if(err)console.error(err)
     else{
+      console.log(result);
       createEx(result,req).then(result2=>{
         result.exercise.push(result2);
         result.save();
-        
         res.json({_id:result._id,username:result.username,description:result2.description,duration:result2.duration,date:result2.date});
       }); 
     }
