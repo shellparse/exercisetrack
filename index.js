@@ -53,8 +53,9 @@ app.post("/api/users/:_id/exercises",(req,res)=>{
 app.get("/api/users/:id/logs/",(req,res)=>{
   let dateRegex= /^(19|20)\d\d[-\.](0[1-9]|1[012])[-\.](0[1-9]|[12][0-9]|3[01])$/;
   User.findById(req.params.id).populate("exercise").then((pop)=>{
+    let filterdEx;
     if(dateRegex.test(req.query.from)&&dateRegex.test(req.query.to)){
-     let filterdEx=pop.exercise.filter((obj)=>{
+      filterdEx=pop.exercise.filter((obj)=>{
        return new Date(obj.date)>new Date(req.query.from)&&new Date(obj.date)<new Date(req.query.to)
      });
      if(Number.isInteger(parseInt(req.query.limit))){
@@ -64,7 +65,7 @@ app.get("/api/users/:id/logs/",(req,res)=>{
     }
     else{
       if(Number.isInteger(parseInt(req.query.limit))){
-        filterdEx=filterdEx.slice(0,Number.parseInt(req.query.limit))
+        filterdEx=pop.exercise.slice(0,Number.parseInt(req.query.limit))
         res.json({username:pop.username,count:pop.exercise.length,_id:pop._id,log:filterdEx})
        }else{
     res.json({username:pop.username,count:pop.exercise.length,_id:pop._id,log:pop.exercise})
