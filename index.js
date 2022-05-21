@@ -60,7 +60,7 @@ app.get("/api/users/:id/logs/",(req,res)=>{
      if(Number.isInteger(parseInt(req.query.limit))){
       filterdEx=filterdEx.slice(0,Number.parseInt(req.query.limit))
       res.json({username:pop.username,count:pop.exercise.length,_id:pop._id,log:filterdEx})
-     }else{res.json({username:pop.username,count:pop.exercise.length,_id:pop._id,log:filterdEx})}    
+     }else{res.json({username:pop.username,count:filterdEx.length,_id:pop._id,log:filterdEx})}    
     }
     else{
     res.json({username:pop.username,count:pop.exercise.length,_id:pop._id,log:pop.exercise})
