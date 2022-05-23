@@ -1,3 +1,3 @@
 # Exercise Tracker
 
-This is the boilerplate for the Exercise Tracker project. Instructions for building your project can be found at https://www.freecodecamp.org/learn/apis-and-microservices/apis-and-microservices-projects/exercise-tracker
+[![tracker-url](https://img.shields.io/static/v1?label=shortener&message=Live&color=gray&labelColor=green)](https://shellparsetrack.herokuapp.com/)
